@@ -1,0 +1,33 @@
+# Rust build artifacts
+/target/
+Cargo.lock
+
+# Log files
+/logs/
+*.log
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+
+# Debug files
+*.pdb
+
+# Backup files
+*.bak
+*.backup
+
+# Config files with secrets (if any)
+config.local.toml
+config.prod.toml

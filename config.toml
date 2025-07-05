@@ -1,0 +1,22 @@
+operating_mode = "Live"
+hyperliquid_api_url = "https://api.hyperliquid.xyz"
+hyperliquid_ws_url = "wss://api.hyperliquid.xyz/ws"
+user_address = "0xdfc24b077bc1425ad1dea75bcb6f8158e10df303"
+enable_websocket = true
+update_interval_ms = 1000
+
+[alert_thresholds]
+vpin_warning = 0.3
+vpin_critical = 0.5
+phantom_liquidity_warning = 0.4
+phantom_liquidity_critical = 0.6
+liquidation_risk_warning = 0.7
+liquidation_risk_critical = 0.85
+max_drawdown_warning = 0.15
+max_drawdown_critical = 0.25
+
+[ui_settings]
+refresh_rate_ms = 100
+theme = "dark"
+show_debug_info = false
+auto_scroll_alerts = true
