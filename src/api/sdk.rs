@@ -368,26 +368,45 @@ impl HyperliquidProvider {
             None
         };
         
-        let monitored_assets = Self::get_default_monitored_assets();
-        info!("📊 Monitoring assets: {:?}", monitored_assets);
+        // Start with defaults
+        let mut monitored_assets = Self::get_default_monitored_assets();
         
         let provider = Self {
             info_client,
             ws_manager,
             user_address: config.user_address.clone(),
-            monitored_assets,
+            monitored_assets: monitored_assets.clone(),
         };
         
         info!("✅ Testing API connectivity...");
         match provider.info_client.get_meta().await {
-            Ok(_) => {
+            Ok(meta_data) => {
                 info!("✅ API connectivity test successful");
+                
+                // Get all available assets from the universe
+                if let Some(universe) = meta_data.get("universe").and_then(|u| u.as_array()) {
+                    monitored_assets = universe
+                        .iter()
+                        .filter_map(|asset| asset.get("name").and_then(|n| n.as_str()))
+                        .map(|s| s.to_string())
+                        .collect();
+                    
+                    info!("📊 Found {} assets in universe, monitoring all of them", monitored_assets.len());
+                }
             }
             Err(e) => {
                 error!("❌ API connectivity test failed: {}", e);
                 return Err(anyhow::anyhow!("Failed to connect to Hyperliquid API: {}", e));
             }
         }
+        
+        // Create a new provider with all assets
+        let provider = Self {
+            info_client: provider.info_client,
+            ws_manager: provider.ws_manager,
+            user_address: provider.user_address,
+            monitored_assets,
+        };
         
         if let Some(ref ws_manager) = provider.ws_manager {
             if let Err(e) = ws_manager.connect_and_subscribe(&provider.monitored_assets).await {

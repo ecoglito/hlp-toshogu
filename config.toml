@@ -1,7 +1,7 @@
 operating_mode = "Live"
 hyperliquid_api_url = "https://api.hyperliquid.xyz"
 hyperliquid_ws_url = "wss://api.hyperliquid.xyz/ws"
-user_address = "0xdfc24b077bc1425ad1dea75bcb6f8158e10df303"
+user_address = "0x023a3d058020fb76cca98f01b3c48c8938a22355"
 enable_websocket = true
 update_interval_ms = 1000
 
